@@ -34,5 +34,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-         name: MythicTotem
-         path: build/libs/*.jar
+         name: Hyperverse
+         path: target/*.jar
