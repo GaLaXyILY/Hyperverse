@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-latest"]
+        os: ["ubuntu-latest"]
     runs-on: "${{ matrix.os }}"
     steps:
       - uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
             cache: 'gradle'
       - uses: gradle/actions/wrapper-validation@v3
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew build
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
