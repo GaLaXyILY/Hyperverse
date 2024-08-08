@@ -31,3 +31,8 @@ jobs:
       - uses: gradle/actions/wrapper-validation@v3
       - name: Build with Gradle
         run: ./gradlew clean build
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+         name: MythicTotem
+         path: build/libs/*.jar
