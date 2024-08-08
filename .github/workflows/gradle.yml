@@ -8,12 +8,10 @@ on:
 
 jobs:
   build:
-    # Only run on PRs if the source branch is on someone else's repo
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: ["ubuntu-latest"]
-    runs-on: "${{ matrix.os }}"
+        project: [ 'core', 'nms-1-17', 'nms-1-18', 'nms-1-19', 'nms-1-20-6', 'nms-1-20', 'nms-1-21', 'nms-common' ]
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -28,11 +26,16 @@ jobs:
             java-version: '21'
             distribution: 'zulu'
             cache: 'gradle'
-      - uses: gradle/actions/wrapper-validation@v3
-      - name: Build with Gradle
-        run: ./gradlew build
-      - name: Upload Artifacts
+      - name: Gradle build
+        run: |
+          cd hyperverse-${{ matrix.project }}
+          gradle build
+          # Get the Git hash
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          echo "git_hash=$git_hash" >> $GITHUB_ENV
+      - name: Upload JAR
+        if: ${{ github.event_name != 'pull_request'}}
         uses: actions/upload-artifact@v4
         with:
-         name: Hyperverse
-         path: target/*.jar
+          name: hyperverse-${{ matrix.project }}-${{ env.git_hash }}.jar
+          path: target/*.jar
