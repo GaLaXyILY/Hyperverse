@@ -158,9 +158,6 @@ tasks {
     build {
         dependsOn(shadowJar)
     }
-    artifacts {
-        archives(tasks.shadowJar)
-    }
 
     runServer {
         java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
