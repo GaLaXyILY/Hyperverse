@@ -115,6 +115,7 @@ tasks {
     }
 
     shadowJar {
+        
         minimize {
             exclude(project(":hyperverse-nms-unsupported"))
             exclude(project(":hyperverse-nms-1-17"))
@@ -131,7 +132,8 @@ tasks {
                 it.moduleGroup == "com.google.guava"
             }
         }
-
+        archiveFileName = "Hyperverse-${rootProject.properties["project_version"]}.jar"
+        destinationDirectory.set(file("$rootDir/target"))
         relocate("io.papermc.lib", "org.incendo.hyperverse.libs.paperlib")
         relocate("org.bstats", "org.incendo.hyperverse.libs.bstats")
         relocate("co.aikar.commands", "org.incendo.hyperverse.libs.aikar.commands")
