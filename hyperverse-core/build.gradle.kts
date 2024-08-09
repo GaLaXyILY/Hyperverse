@@ -155,9 +155,10 @@ tasks {
         relocate("org.jetbrains.annotations", "org.incendo.hyperverse.libs.jetbrains.annotations")
         relocate("com.google.errorprone", "org.incendo.hyperverse.libs.errorprone")
     }
-
-    build {
-        dependsOn(shadowJar)
+    
+    artifacts {
+        archives(tasks.shadowJar)
+   
     }
 
     runServer {
